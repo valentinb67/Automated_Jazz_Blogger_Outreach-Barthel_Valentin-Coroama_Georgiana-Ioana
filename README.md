@@ -1,2 +1,2 @@
 # Projet-Barthel-Valentin-Coroama-Georgiana
-Projet degroupe, Technique de programmation
+Projet de groupe, Technique de programmation
