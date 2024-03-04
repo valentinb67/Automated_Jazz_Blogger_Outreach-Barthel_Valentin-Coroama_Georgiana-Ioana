@@ -2,7 +2,6 @@
 # coding: utf-8
 
 # In[6]:
-print("Wesh la mif")
 
 import sys
 
