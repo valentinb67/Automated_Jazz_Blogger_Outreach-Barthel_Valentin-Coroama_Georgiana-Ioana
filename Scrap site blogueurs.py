@@ -2,7 +2,7 @@
 # coding: utf-8
 
 # In[6]:
-
+print("Wesh la mif")
 
 import sys
 
@@ -16,7 +16,7 @@ print(sys.version)
 # In[2]:
 
 
-pip install httpx
+#pip install httpx
 
 
 # In[2]:
