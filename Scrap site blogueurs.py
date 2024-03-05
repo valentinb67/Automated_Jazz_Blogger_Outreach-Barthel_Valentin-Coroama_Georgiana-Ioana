@@ -3,7 +3,9 @@
 
 # In[6]:
 
+
 import sys
+import pandas as pd
 
 
 # In[7]:
@@ -15,7 +17,7 @@ print(sys.version)
 # In[2]:
 
 
-#pip install httpx
+pip install httpx
 
 
 # In[2]:
