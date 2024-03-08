@@ -1,0 +1,525 @@
+Nom: Free Jazz
+Localisation: US
+Web: freejazzblog.org
+Facebook: 1600
+Twitter: 3900
+Instagram: 0
+
+Nom: Jazz&Blues
+Localisation: Paris, Ile-de-France, France
+Web: youtube.com/cha..
+Facebook: 123700
+Twitter: 765
+Instagram: 0
+
+Nom: A Jazz Noise
+Localisation: Barcelona, Catalunya, Spain
+Web: ajazznoise.com
+Facebook: 2000
+Twitter: 1500
+Instagram: 0
+
+Nom: Yoko Miwa 
+Localisation: Boston, Massachusetts, US
+Web: yokomiwa.com/blog
+Facebook: 3500
+Twitter: 1300
+Instagram: 2400
+
+Nom: LondonJazz
+Localisation: London, England, UK
+Web: londonjazznews.com
+Facebook: 7800
+Twitter: 51500
+Instagram: 0
+
+Nom: New York Jazz Workshop Blog
+Localisation: New York, US
+Web: newyorkjazzworksho..
+Facebook: 16000
+Twitter: 1600
+Instagram: 0
+
+Nom: JazzWax
+Localisation: US
+Web: jazzwax.com
+Facebook: 0
+Twitter: 11700
+Instagram: 0
+
+Nom: Pitchfork » Jazz
+Localisation: US
+Web: pitchfork.com/news..
+Facebook: 1400000
+Twitter: 3200000
+Instagram: 1500000
+
+Nom: All About Jazz
+Localisation: Philadelphia, Pennsylvania, US
+Web: allaboutjazz.com/p..
+Facebook: 129100
+Twitter: 92600
+Instagram: 4100
+
+Nom: Library of Congress » Jazz 
+Localisation: Washington, District of Columbia, US
+Web: blogs.loc.gov/musi..
+Facebook: 497400
+Twitter: 1200000
+Instagram: 0
+
+Nom: WartaJazz.com
+Localisation: Yogyakarta, Indonesia
+Web: wartajazz.com
+Facebook: 4800
+Twitter: 19500
+Instagram: 10400
+
+Nom: The Jazz Mann
+Localisation: UK 
+Web: thejazzmann.com
+Facebook: 0
+Twitter: 4900
+Instagram: 0
+
+Nom: Jazzwise
+Localisation: London, England, UK
+Web: jazzwise.com/news
+Facebook: 21600
+Twitter: 56300
+Instagram: 11000
+
+Nom: Ottawa Citizen » Jazz Blog 
+Localisation: none
+Web: ottawacitizen.com/..
+Facebook: 194700
+Twitter: 249600
+Instagram: 51200
+
+Nom: Jazz Journal
+Localisation: London, England, UK
+Web: jazzjournal.co.uk
+Facebook: 1900
+Twitter: 11300
+Instagram: 0
+
+Nom: Wynton Marsalis 
+Localisation: New York, US
+Web: wyntonmarsalis.org..
+Facebook: 785300
+Twitter: 135800
+Instagram: 324500
+
+Nom: TD Ottawa Jazz Festival
+Localisation: Ottawa, Ontario, Canada
+Web: ottawajazzfestival..
+Facebook: 12800
+Twitter: 18100
+Instagram: 6800
+
+Nom: Jazz In Europe
+Localisation: Hengelo, Overijssel, Netherlands
+Web: jazzineurope.mfmme..
+Facebook: 11400
+Twitter: 31800
+Instagram: 4900
+
+Nom: Jazz Chill Music
+Localisation: Florida, US
+Web: jazzchill.blogspot..
+Facebook: 0
+Twitter: 11900
+Instagram: 0
+
+Nom: Jazz You Too
+Localisation: none
+Web: jazzyoutoo.wordpre..
+Facebook: 0
+Twitter: 1300
+Instagram: 0
+
+Nom: SFJAZZ 
+Localisation: San Francisco, California, US
+Web: sfjazz.org/ontheco..
+Facebook: 85500
+Twitter: 28100
+Instagram: 108800
+
+Nom: Jazz Lives Blog 
+Localisation: New York, US
+Web: jazzlives.wordpres..
+Facebook: 0
+Twitter: 434
+Instagram: 0
+
+Nom: New York Amsterdam » Jazz Notes
+Localisation: Harlem, New York, US
+Web: amsterdamnews.com/..
+Facebook: 54600
+Twitter: 14900
+Instagram: 17300
+
+Nom: bebop spoken here
+Localisation: US
+Web: lance-bebopspokenh..
+Facebook: 0
+Twitter: 624
+Instagram: 0
+
+Nom: CapitalBop
+Localisation: Washington, District of Columbia, US
+Web: capitalbop.com
+Facebook: 3300
+Twitter: 3500
+Instagram: 3100
+
+Nom: Jazz Blues Florida
+Localisation: Florida, US
+Web: jazz-bluesflorida...
+Facebook: 7400
+Twitter: 34
+Instagram: 3700
+
+Nom: Jazz Profiles
+Localisation: none
+Web: jazzprofiles.blogs..
+Facebook: 0
+Twitter: 0
+Instagram: 0
+
+Nom: JazzRochester Blog
+Localisation: Rochester, New York, US
+Web: jazzrochester.com
+Facebook: 1300
+Twitter: 11300
+Instagram: 889
+
+Nom: Marlbank Jazz Blog
+Localisation: none
+Web: marlbank.net
+Facebook: 0
+Twitter: 0
+Instagram: 0
+
+Nom: UK Vibe
+Localisation: UK
+Web: ukvibe.org
+Facebook: 0
+Twitter: 0
+Instagram: 0
+
+Nom: TheJazzWorld
+Localisation: Las Vegas, Nevada, US
+Web: thejazzworld.com/blog
+Facebook: 115
+Twitter: 0
+Instagram: 262
+
+Nom: Coastal Jazz & Blues Society Blog
+Localisation: Vancouver, British Columbia, Canada
+Web: coastaljazz.ca/blog
+Facebook: 10700
+Twitter: 12200
+Instagram: 5800
+
+Nom: Polish-Jazz
+Localisation: Poland 
+Web: polish-jazz.blogsp..
+Facebook: 0
+Twitter: 0
+Instagram: 0
+
+Nom: Jazzfuel
+Localisation: none
+Web: jazzfuel.com/jazz-..
+Facebook: 5200
+Twitter: 5900
+Instagram: 1500
+
+Nom: Open Sky Jazz
+Localisation: Rockville, Maryland, US
+Web: openskyjazz.com
+Facebook: 0
+Twitter: 1600
+Instagram: 0
+
+Nom: Vortex Jazz Club
+Localisation: England, UK
+Web: vortexjazz.co.uk/news
+Facebook: 7900
+Twitter: 25400
+Instagram: 0
+
+Nom: The Blue Moment » Jazz 
+Localisation: London, England, UK
+Web: thebluemoment.com/..
+Facebook: 0
+Twitter: 25800
+Instagram: 0
+
+Nom: Learn Jazz Standards 
+Localisation: New York, US
+Web: learnjazzstandards..
+Facebook: 28600
+Twitter: 1300
+Instagram: 16400
+
+Nom: Debbie Burke 
+Localisation: New York City, New York, US
+Web: debbieburkeauthor.com
+Facebook: 578
+Twitter: 2100
+Instagram: 0
+
+Nom: Jazz Aspen Snowmass
+Localisation: Aspen, Colorado, US
+Web: jazzaspensnowmass...
+Facebook: 20000
+Twitter: 4100
+Instagram: 8000
+
+Nom: Jazz Journalists Association 
+Localisation: New York City, New York, US
+Web: news.jazzjournalis..
+Facebook: 0
+Twitter: 7000
+Instagram: 0
+
+Nom: WZUM Jazz Pittsburgh
+Localisation: Pittsburgh, Pennsylvania, US
+Web: wzum.org/jazz-blog
+Facebook: 0
+Twitter: 373
+Instagram: 685
+
+Nom: Four on the Floor
+Localisation: Calgary, Alberta, Canada
+Web: jonmccaslinjazzdru..
+Facebook: 997
+Twitter: 939
+Instagram: 921
+
+Nom: Jazz24
+Localisation: Seattle, Washington, US
+Web: jazz24.org/categor..
+Facebook: 6600
+Twitter: 2100
+Instagram: 3900
+
+Nom: Jazz guitar Licks Blog
+Localisation: France
+Web: jazz-guitar-licks...
+Facebook: 43000
+Twitter: 914
+Instagram: 111600
+
+Nom: SimplyJazzTalk Blog
+Localisation: England, UK
+Web: simplyjazztalk.blog
+Facebook: 15
+Twitter: 2300
+Instagram: 0
+
+Nom: Stringspace Blog
+Localisation: Australia
+Web: stringspace.com.au..
+Facebook: 5300
+Twitter: 164
+Instagram: 2400
+
+Nom: Free Jazz Lessons Blog 
+Localisation: Chicago, Illinois, US
+Web: freejazzlessons.co..
+Facebook: 3600
+Twitter: 375
+Instagram: 0
+
+Nom: All That Philly Jazz
+Localisation: Philadelphia, Pennsylvania, US
+Web: phillyjazz.us
+Facebook: 0
+Twitter: 1400
+Instagram: 0
+
+Nom: Tracce di Jazz
+Localisation: Italy
+Web: traccedijazz.com
+Facebook: 6400
+Twitter: 229
+Instagram: 0
+
+Nom: JazzTrail Blog 
+Localisation: New York City, New York, US
+Web: jazztrail.net/blog
+Facebook: 1400
+Twitter: 0
+Instagram: 0
+
+Nom: SomehowJazz
+Localisation: California, US
+Web: somehowjazz.com/blog
+Facebook: 58100
+Twitter: 749
+Instagram: 312
+
+Nom: Canberra Jazz blog
+Localisation: none
+Web: canberrajazz.blogs..
+Facebook: 0
+Twitter: 0
+Instagram: 0
+
+Nom: PDX Jazz Blog PDX Jazz
+Localisation: Portland, Oregon, US
+Web: pdxjazz.com/news
+Facebook: 9600
+Twitter: 2300
+Instagram: 6400
+
+Nom: Ausjazz Blog
+Localisation: Melbourne, Victoria, Australia
+Web: ausjazz.net
+Facebook: 772
+Twitter: 367
+Instagram: 0
+
+Nom: Tokyo Jazz Site Blog
+Localisation: Yokohama, Kanagawa, Japan
+Web: tokyojazzsite.com/..
+Facebook: 0
+Twitter: 2700
+Instagram: 0
+
+Nom: Lancaster Jazz Blog 
+Localisation: Lancaster, England, UK
+Web: lancasterjazz.com/..
+Facebook: 2100
+Twitter: 2400
+Instagram: 2100
+
+Nom: JazzArts Charlotte Blog 
+Localisation: Charlotte, North Carolina, US
+Web: thejazzarts.org/ne..
+Facebook: 6600
+Twitter: 1400
+Instagram: 3400
+
+Nom: Gapplegate Music Review
+Localisation: Ridgefield Park, New Jersey, US
+Web: gapplegatemusicrev..
+Facebook: 307
+Twitter: 0
+Instagram: 0
+
+Nom: Clean Feed Records
+Localisation: Portugal
+Web: cleanfeed-records...
+Facebook: 5500
+Twitter: 0
+Instagram: 0
+
+Nom: Caravan Jazz
+Localisation: none
+Web: caravanjazz.es
+Facebook: 0
+Twitter: 3000
+Instagram: 1200
+
+Nom: Ellington Reflections
+Localisation: Pasadena, California, US
+Web: ellingtonreflectio..
+Facebook: 45
+Twitter: 647
+Instagram: 0
+
+Nom: Decidedly Jazz Danceworks
+Localisation: Calgary, Alberta, Canada
+Web: decidedlyjazz.com/..
+Facebook: 4800
+Twitter: 0
+Instagram: 7000
+
+Nom: Brilliant Corners
+Localisation: Boston, Massachusetts, US
+Web: brilliantcornersab..
+Facebook: 0
+Twitter: 1300
+Instagram: 0
+
+Nom: Jazz Workshop Australia
+Localisation: Sydney, New South Wales, Australia
+Web: jazzworkshopaustra..
+Facebook: 2600
+Twitter: 17
+Instagram: 0
+
+Nom: Sun Prairie Band Boosters » Jazz 
+Localisation: none
+Web: spbb.org/jazz-news
+Facebook: 0
+Twitter: 0
+Instagram: 0
+
+Nom: Uncle Paul's Jazz Closet
+Localisation: none
+Web: jazzcloset.blogspo..
+Facebook: 677
+Twitter: 0
+Instagram: 0
+
+Nom: Neon Jazz
+Localisation: Kansas City, Missouri, US
+Web: theneonjazz.blogsp..
+Facebook: 235
+Twitter: 0
+Instagram: 0
+
+Nom: Best of Jazz
+Localisation: none
+Web: bestofjazz.org
+Facebook: 0
+Twitter: 528
+Instagram: 0
+
+Nom: Jazz Promotion Network Blog 
+Localisation: none
+Web: jazzpromotionnetwo..
+Facebook: 583
+Twitter: 1800
+Instagram: 0
+
+Nom: Jazz | The Music of Unemployment
+Localisation: Portland, Oregon, US
+Web: uglyrug.blogspot.com
+Facebook: 0
+Twitter: 1100
+Instagram: 0
+
+Nom: The Jazz Clarinet
+Localisation: Cleveland, Ohio, US
+Web: thejazzclarinet.bl..
+Facebook: 0
+Twitter: 1000
+Instagram: 0
+
+Nom: JazzLocal32.com
+Localisation: Auckland, New Zealand
+Web: jazzlocal32.com/au..
+Facebook: 0
+Twitter: 53
+Instagram: 0
+
+Nom: Jazz from Geoff
+Localisation: UK
+Web: jazzfromgeoff.blog..
+Facebook: 0
+Twitter: 0
+Instagram: 0
+
+Nom: Kansas City Jazz Ambassadors Blog
+Localisation: Kansas City, Missouri, US
+Web: kcjazzambassadors...
+Facebook: 3200
+Twitter: 0
+Instagram: 0
+
