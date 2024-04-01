@@ -3,10 +3,6 @@ from bs4 import BeautifulSoup
 import re
 import pandas as pd
 
-#Appel de la fonction get_url() depuis le script scraping_blogs
-from scraping_blogs import get_url
-print(get_url('https://www.smoothjazz.com/festivals'))
-
 #Création d'une fonction permettant de scraper toutes les pages contenant les informations à scrapper sur les festivals 
 def get_all_pages():
     urls = []
