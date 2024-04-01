@@ -5,12 +5,12 @@ Projet de groupe, Technique de programmation
 ## Description:
 Ce projet vise à automatiser l'envoi d'invitations par e-mail à 75 des blogueurs de Jazz les plus influents du monde, les conviant à participer à des festivals de Jazz dans leur pays d'origine. Utilisant des techniques de marketing ciblé, ce script segmente les blogueurs selon leur localisation et personnalise les invitations pour maximiser l'engagement et la participation.
 
-Notre projet de Web scraping se structure autour de trois parties principales:
--un premier script (scraping_blogs.py) comportant l'ensemble des commandes nécessaires pour scraper le site https://music.feedspot.com/jazz_blogs/
--un deuxième script (scraping_festivals.py) comportant l'ensemble des commandes nécessaires pour scraper le site https://www.smoothjazz.com/festivals
--un troisième script (sending_mail.py) comportant l'ensemble des commandes nécessaires pour la création et l'envoi du mail automatique personnalisé aux blogueurs
+Notre projet de Web scraping se structure autour de trois parties principales:\n
+-un premier script (scraping_blogs.py) comportant l'ensemble des commandes nécessaires pour scraper le site https://music.feedspot.com/jazz_blogs/ \n
+-un deuxième script (scraping_festivals.py) comportant l'ensemble des commandes nécessaires pour scraper le site https://www.smoothjazz.com/festivals\n
+-un troisième script (sending_mail.py) comportant l'ensemble des commandes nécessaires pour la création et l'envoi du mail automatique personnalisé aux blogueurs\n
 
-Nous avons également créé un quatrième script (calling_script_functions.py) qui importe et appelle les fonctions des 3 scripts précédents 
+Nous avons également créé un quatrième script (calling_script_functions.py) qui importe et appelle les fonctions des 3 scripts précédents \n
 Ce dernier se compose de 4 sections, les trois premières visant à définir des fonctions qui appellent les fonctions des scripts précédents par partie (partie blogueurs, partie festivals, partie email) et une dernière section qui génère une fonction globale permettant d'appeler l'ensemble des fonctions par partie pour exécuter l'intégralité du code.
 
 
