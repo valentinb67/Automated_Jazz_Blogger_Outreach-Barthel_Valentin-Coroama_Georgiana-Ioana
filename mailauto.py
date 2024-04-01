@@ -14,8 +14,8 @@ import numpy as np
 
 
 
-TableBlog = pd.read_csv('C:\\Users\\valen\\Documents\\GitHub\\Projet-Barthel-Valentin-Coroama-Georgiana\\TableBlog.csv')
-TableEvent = pd.read_csv('C:\\Users\\valen\\Documents\\GitHub\\Projet-Barthel-Valentin-Coroama-Georgiana\\TableEvent.csv')
+TableBlog = pd.read_csv('TableBlog.csv')
+TableEvent = pd.read_csv('TableEvent.csv')
 TableBlog
 TableEvent
 
@@ -115,12 +115,12 @@ def send_jazz_event_invitations(smtp_server, smtp_port, smtp_username, smtp_pass
         return
     #Initiation de la boucle pour créer un message personnalisé en fonction du blogueur, de son nombre d'abonnées 
     # et de sa localisation
-     for country in TableBlog['Pays'].unique():
+    for country in TableBlog['Pays'].unique():
         country_events = TableEvent[TableEvent['Pays_Event'].str.contains(country, case=False, na=False)]
         if not country_events.empty:
             country_blogs = TableBlog[TableBlog['Pays'] == country]
             for _, blog in country_blogs.iterrows():
-            # Déterminer le nombre d'abonnés Facebook ou Twitter
+                # Déterminer le nombre d'abonnés Facebook ou Twitter
                 facebook_followers = blog['Abonnées Facebook']
                 twitter_followers = blog['Abonnées Twitter']
                 followers = facebook_followers if facebook_followers > 0 else twitter_followers
@@ -134,9 +134,9 @@ def send_jazz_event_invitations(smtp_server, smtp_port, smtp_username, smtp_pass
     
             # Ajout du reste du texte de l'email
                 if len(country_events) > 1:
-                    email_body += "\n\nAnd that's not all. As we appreciate your effort to spread the jazzy vibes across your passionate community, we'd love to offer you a free full access ticket to your favorite festival from the list.\n\n Find the full list of the festivals taking place all around the world at the following address:\n\nFeel free to write us back for more details.\n\nBest regards,\n The Jazzy World Team 🎹🎵"
+                    email_body += "\n\nAnd that's not all. As we appreciate your effort to spread the jazzy vibes across your passionate community, we'd love to offer you a free full access ticket to your favorite festival from the list.\n\n Find the full list of the festivals taking place all around the world at the following address: https://www.smoothjazz.com/festivals \n\nFeel free to write us back for more details.\n\nBest regards,\n The Jazzy World Team 🎹🎵"
                 else:
-                    email_body += "\n\nAnd that's not all. As we appreciate your effort to spread the jazzy vibes across your passionate community, we'd love to offer you a free full access ticket to this festival.\n\n Find the full list of the festivals taking place all around the world at the following address:\n\n\nFeel free to write us back for more details.\n\nBest regards,\n The Jazzy World Team 🎹🎵 "
+                    email_body += "\n\nAnd that's not all. As we appreciate your effort to spread the jazzy vibes across your passionate community, we'd love to offer you a free full access ticket to this festival.\n\n Find the full list of the festivals taking place all around the world at the following address: https://www.smoothjazz.com/festivals \n\n\nFeel free to write us back for more details.\n\nBest regards,\n The Jazzy World Team 🎹🎵 "
 
                 msg = MIMEMultipart()
                 msg['From'] = smtp_username

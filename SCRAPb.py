@@ -41,21 +41,29 @@ url = "https://music.feedspot.com/jazz_blogs/"
 
 def get_url(url):
     '''
-    Function to retrieve the HTML content of a given URL by using a fake user agent.
-    
+    Function to retrieve the HTML content of a given URL using a fake user agent and handling exceptions.
+
     Args:
         url (str): The URL to retrieve the content from.
-        
+
     Returns:
-        str: The HTML content of the URL.
+        BeautifulSoup object if the request was successful, None otherwise.
     '''
     user_agents_list = [
         'Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148',
         'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.83 Safari/537.36',
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36'
-        ]
-    r = requests.get(url, headers={'User-Agent': random.choice(user_agents_list)})
-    return BeautifulSoup(r.text)
+    ]
+
+    headers = {'User-Agent': random.choice(user_agents_list)}
+    with requests.Session() as session:
+        try:
+            response = session.get(url, headers=headers)
+            response.raise_for_status()  # Cela va lever une exception pour les codes 4xx/5xx
+            return BeautifulSoup(response.text, 'lxml')
+        except requests.RequestException as e:
+            print(f"Error retrieving URL {url}: {e}")
+            return None
 
 
 # In[41]:
@@ -268,9 +276,8 @@ TableBlog
 # In[50]:
 
 
-chemin = 'C:\\Users\\valen\\Documents\\GitHub\\Projet-Barthel-Valentin-Coroama-Georgiana\\TableBlog.csv'
-TableBlog.to_csv(chemin, index=False)
-
+nom_fichier = 'TableBlog.csv'
+TableBlog.to_csv(nom_fichier, index=False)
 
 # In[51]:
 

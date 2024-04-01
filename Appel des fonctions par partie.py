@@ -3,7 +3,6 @@
 
 # In[5]:
 
-
 #importer les packages
 import sys
 import requests 
@@ -20,21 +19,31 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-
 # # PARTIE 1. Scrapper le site des bloguers
 
 # In[10]:
 
+# Correct import statements
+from SCRAPb import get_url, get_names, get_locals, get_webs, get_followers, create_email
 
+# Now, use these functions with the appropriate arguments
 url = "https://music.feedspot.com/jazz_blogs/"
 
+# Example function call
+blog_urls = get_url(url)  # Assuming get_url function returns something you can use
 
-# In[11]:
+# Call other functions similarly
+names = get_names(url)
+locals = get_locals(url)
+webs = get_webs(url)
 
+# For functions that require more than one argument
+twitter_followers = get_followers(url, "fs-twitter")
+facebook_followers = get_followers(url, "fs-facebook")
+instagram_followers = get_followers(url, "fs-instagram")
 
-#importer les fonctions du script SCRAPb
-get_ipython().run_line_magic('run', 'SCRAPb.ipynb')
-
+# For functions that do not require arguments (assuming create_email doesn't need arguments)
+emails = create_email()
 
 
 # In[8]:
@@ -58,9 +67,7 @@ def get_bloggers(url):  # creer une fonction qui appelle des fonctions du script
     instasub_num = [convertir_en_nombre(abonne) for abonne in instasub]
 
     adresses_email = create_email()  # création des adresses mail pour chaque blogueur
-    ville_reg_pays = get_ville_region_pays()  # ville, region et pays de chaque blogueur
-
-    return [nom_blog, localisation, site_web, fbsub_num, twitsub_num, instasub_num, adresses_email, ville_reg_pays]
+    return [nom_blog, localisation, site_web, fbsub_num, twitsub_num, instasub_num, adresses_email]
 
 # Appel de la fonction pour extraire les données
 url = "https://music.feedspot.com/jazz_blogs/"
@@ -102,7 +109,13 @@ TableBlog = create_datablog()
 # Ajouter la nouvelle ligne
 new_rowG = {'Nom Blog': "Georgiana", 'Pays': "Romania" ,'Région': "none", 'Ville': "none", 'Adresse Email': "iogecor02@gmail.com", 
             'Site web': "none" ,'Abonnées Facebook': 0, 'Abonnées Twitter': 0, 'Abonnées Instagram': 0}
+new_rowV = {'Nom Blog': "Valentin", 'Pays': "France" ,'Région': "none", 'Ville': "none", 'Adresse Email': "valentin.barthel@etu.unistra.fr", 
+            'Site web': "none" ,'Abonnées Facebook': 0, 'Abonnées Twitter': 0, 'Abonnées Instagram': 0}
+#new_rowP = {'Nom Blog': "Pierre Pelletier", 'Pays': "France" ,'Région': "none", 'Ville': "none", 'Adresse Email': "p.pelletier@unistra.fr", 
+#           'Site web': "none" ,'Abonnées Facebook': 0, 'Abonnées Twitter': 0, 'Abonnées Instagram': 0}
 TableBlog = add_row_to_table(TableBlog, new_rowG)
+TableBlog = add_row_to_table(TableBlog, new_rowV)
+#TableBlog = add_row_to_table(TableBlog, new_rowP)
 
 print(TableBlog)
 
@@ -116,10 +129,7 @@ print(TableBlog)
 # # PARTIE 2. Scrapper le site des festivals
 
 # In[13]:
-
-
-#importer les fonctions du script des festivals
-get_ipython().run_line_magic('run', 'SCRAPf.ipynb')
+from SCRAPfest import get_all_pages, get_event_names, scrape_all_events
 
 
 # In[16]:
@@ -139,8 +149,7 @@ get_festivals()
 
 # In[17]:
 
-
-get_ipython().run_line_magic('run', 'mailauto.ipynb')
+from mailauto import format_blogger_email, format_event_list, send_jazz_event_invitations
 
 
 # # PARTIE 4: appeller les 3 parties pour tout afficher
@@ -151,9 +160,11 @@ get_ipython().run_line_magic('run', 'mailauto.ipynb')
 def get_everything():
     get_bloggers(url)
     create_datablog()
-    get_festivals
-    get_ipython().run_line_magic('run', 'mailauto.ipynb')
-
+    get_festivals()
+    format_blogger_email(blog['Nom Blog'], followers, country)
+    format_event_list(country_events)
+    send_jazz_event_invitations("smtp.gmail.com", 465, "jazzyworld67@gmail.com", "ogunqrpjhigzwpfc", TableBlog, TableEvent)
+    
 get_everything()    
 
 

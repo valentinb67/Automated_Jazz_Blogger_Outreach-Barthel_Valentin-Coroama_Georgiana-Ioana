@@ -80,8 +80,8 @@ TableEvent
 
 # In[9]:
 
-chemin ='C:\\Users\\valen\\Documents\\GitHub\\Projet-Barthel-Valentin-Coroama-Georgiana\\TableEvent.csv'
-TableEvent.to_csv(chemin, index=False)
+nom_fichier = 'TableEvent.csv'
+TableEvent.to_csv(nom_fichier, index=False)
 
 
 # In[11]:
