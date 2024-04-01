@@ -9,7 +9,7 @@ import numpy as np
 import tqdm
 import pandas as pd
 
-#Création d'une fonction pour ouvrir une URL
+#Création d'une fonction pour ouvrir une URL avec des simulations d'agents tirés aléatoirement pour éviter le blocage par les sites
 def get_url(url):
     '''
     Function to retrieve the HTML content of a given URL using a fake user agent and handling exceptions.
@@ -24,7 +24,7 @@ def get_url(url):
         'Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148',
         'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.83 Safari/537.36',
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36'
-    ]
+    ]#Liste des agents simulés
 
     headers = {'User-Agent': random.choice(user_agents_list)}
     with requests.Session() as session:
