@@ -1,44 +1,14 @@
-#!/usr/bin/env python
-
-# coding: utf-8
-
-# In[9]:
-
-
 import re
 import pandas as pd
 import numpy as np
-
-
-# In[24]:
-
-
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 TableBlog = pd.read_csv('TableBlog.csv')
 TableEvent = pd.read_csv('TableEvent.csv')
 TableBlog
 TableEvent
-
-# In[13]:
-
-
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-
-
-# In[33]:
-
-
-# Configuration du serveur SMTP
-smtp_server = "smtp.example.com"
-smtp_port = 587
-smtp_username = "your_username"
-smtp_password = "your_password"
-
-
-# In[20]:
-
 
 for country in TableBlog['Pays'].unique():
     country_events = TableEvent[TableEvent['Pays_Event'].str.contains(country, case=False, na=False)]
@@ -74,10 +44,6 @@ for country in TableBlog['Pays'].unique():
             # Imprimer l'e-mail au lieu de l'envoyer
             print(f"To: {blog['Adresse Email']}\nSubject: {email_subject}\n{email_body}\n")
 
-
-# In[37]:
-
-
 def format_blogger_email(blog_name, followers, country):
     email_subject = f"Invitation to Jazz Events in {country}🎶🎷"
     email_body = f"Dear {blog_name},\n\nIt's time for some good jazz! With more than {followers} jazz lovers following you, it seems like your community is growing by each day.\n\nThat's why we thought you might be interested in the jazz festivals taking place in your area soon.\n\n Check out all the festivals organized in {country}:"
@@ -97,11 +63,6 @@ def format_event_list(events):
     
     formatted_list = "- " + "\n- ".join(event_list)
     return formatted_list
-          
-
-
-# In[40]:
-
 
 # Connexion au serveur SMTP #Création de la fonction pour envoyer les mails automatiquement
 def send_jazz_event_invitations(smtp_server, smtp_port, smtp_username, smtp_password, TableBlog, TableEvent):
@@ -158,10 +119,3 @@ def send_jazz_event_invitations(smtp_server, smtp_port, smtp_username, smtp_pass
 
 # Appel de la fonction
 send_jazz_event_invitations("smtp.gmail.com", 465, "jazzyworld67@gmail.com", "ogunqrpjhigzwpfc", TableBlog, TableEvent)
-
-
-# In[ ]:
-
-
-
-

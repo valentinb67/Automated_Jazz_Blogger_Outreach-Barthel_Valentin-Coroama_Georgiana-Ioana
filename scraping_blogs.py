@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[38]:
-
-
 import requests 
 import random 
 import pprint
@@ -14,16 +8,6 @@ from bs4 import BeautifulSoup
 import numpy as np
 import tqdm
 import pandas as pd
-
-
-# In[39]:
-
-
-url = "https://music.feedspot.com/jazz_blogs/"
-
-
-# In[40]:
-
 
 def get_url(url):
     '''
@@ -51,9 +35,7 @@ def get_url(url):
             print(f"Error retrieving URL {url}: {e}")
             return None
 
-
-# In[41]:
-
+print(get_url("https://music.feedspot.com/jazz_blogs/"))
 
 def get_names(url):
     soup = get_url(url)
@@ -76,11 +58,6 @@ nom_blog = get_names("https://music.feedspot.com/jazz_blogs/")
 print(len(nom_blog))
 print(nom_blog)
 
-
-# In[42]:
-
-
-#Création d'une liste contenant les adresses emails fictives "{nom_blog}@exemple.com":
 def create_email():
     adresses_email = []
     for blog in nom_blog:
@@ -94,10 +71,6 @@ def create_email():
     for adresse in adresses_email:
         return adresses_email
 create_email()  
-
-
-# In[43]:
-
 
 def get_locals(url):
     soup = get_url(url)
@@ -119,10 +92,6 @@ def get_locals(url):
 localisation = get_locals("https://music.feedspot.com/jazz_blogs/")
 print(len(localisation))
 print(localisation)
-
-
-# In[44]:
-
 
 Ville = []
 Region = []
@@ -152,10 +121,6 @@ print("Villes:", Ville)
 print("Regions:", Region)
 print("Pays:", Pays)
 
-
-# In[45]:
-
-
 def get_webs(url):
     soup = get_url(url)
     h3s = soup.find_all('p', attrs={'class':'trow trow-wrap'})
@@ -175,10 +140,6 @@ def get_webs(url):
 site_web = get_webs("https://music.feedspot.com/jazz_blogs/")
 print(len(site_web))
 print(site_web)
-
-
-# In[46]:
-
 
 def get_followers(url, name_class):
     
@@ -211,10 +172,6 @@ print(fbsub)
 print(len(instasub))
 print(instasub)
 
-
-# In[47]:
-
-
 def convertir_en_nombre(abonnes_str):
     # Gère le cas spécial où la chaîne est 'none'
     if abonnes_str == 'none':
@@ -234,10 +191,6 @@ twitsub_num = [convertir_en_nombre(abonne) for abonne in twitsub]
 instasub_num = [convertir_en_nombre(abonne) for abonne in instasub]
 len(instasub_num)
 
-
-# In[48]:
-
-
 DataBlog = {"Nom Blog": nom_blog,
                 "Pays": Pays,
                 "Région": Region,
@@ -251,16 +204,8 @@ DataBlog = {"Nom Blog": nom_blog,
 
 TableBlog = pd.DataFrame(DataBlog)
 
-
-# In[49]:
-
-
 TableBlog["Pays"] = TableBlog["Pays"].replace({"US": "USA"})
 TableBlog
-
-
-# In[50]:
-
 
 nom_fichier = 'TableBlog.csv'
 TableBlog.to_csv(nom_fichier, index=False)

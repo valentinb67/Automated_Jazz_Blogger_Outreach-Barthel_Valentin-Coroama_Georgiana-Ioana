@@ -1,39 +1,35 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[10]:
-
-
 import requests
 from bs4 import BeautifulSoup
 import re
 import pandas as pd
 
+def get_url(url):
+    '''
+    Function to retrieve the HTML content of a given URL using a fake user agent and handling exceptions.
 
+    Args:
+        url (str): The URL to retrieve the content from.
 
-# In[2]:
+    Returns:
+        BeautifulSoup object if the request was successful, None otherwise.
+    '''
+    user_agents_list = [
+        'Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.83 Safari/537.36',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36'
+    ]
 
+    headers = {'User-Agent': random.choice(user_agents_list)}
+    with requests.Session() as session:
+        try:
+            response = session.get(url, headers=headers)
+            response.raise_for_status()  # Cela va lever une exception pour les codes 4xx/5xx
+            return BeautifulSoup(response.text, features="lxml")
+        except requests.RequestException as e:
+            print(f"Error retrieving URL {url}: {e}")
+            return None
 
-url = 'https://www.smoothjazz.com/festivals'
-url
-
-
-# In[3]:
-
-
-response = requests.get(url)
-response
-
-
-# In[4]:
-
-if response.ok:
-    soup = BeautifulSoup(response.text, features="lxml")
-    print(soup)
-
-
-# In[5]:
-
+print(get_url('https://www.smoothjazz.com/festivals'))
 
 def get_all_pages():
     urls = []
@@ -67,18 +63,10 @@ def scrape_all_events():
         all_events.extend(events)
     return pd.DataFrame(all_events)
 
-# Exécutez cette fonction pour récupérer les données de toutes les pages et les stocker dans un DataFrame
 TableEvent = scrape_all_events()
 
-# In[6]:
-
-
-#Remplaçons les valeures doubles
 TableEvent["Pays_Event"] = TableEvent["Pays_Event"].replace({"United States": "USA"})
 TableEvent
-
-
-# In[9]:
 
 nom_fichier = 'TableEvent.csv'
 TableEvent.to_csv(nom_fichier, index=False)

@@ -1,7 +1,8 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[5]:
+# STRUCTURE du script: 4 parties
+# partie 1: importer et appeller les fonctions du script correspondant au scrapping du site des bloguers; créer une fonction get_bloggers(url) qui appelle toutes ces fonctions
+# partie 2: importer et appeller les fonctions du script correspondant au scrapping du site des festivals; créer une fonction get_festivals() qui appelle toutes ces fonctions
+# partie 3: importer les 3 fonctions du script correspondant à la création du mail automatique
+# partie 4: créer une fonction globale get_everything() qui appelle les fonctions des 3 parties précédentes pour executer l'ensemble du code.
 
 #importation des packages
 import sys
@@ -19,37 +20,30 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-# # PARTIE 1. Scrapper le site des bloguers
+# Importer les fonctions du script scraping_blogs
+from scraping_blogs import get_url, get_names, get_locals, get_webs, get_followers, create_email
 
-# In[10]:
-
-# Correct import statements
-from SCRAPb import get_url, get_names, get_locals, get_webs, get_followers, create_email
-
-# Now, use these functions with the appropriate arguments
+# url du site avec les blogueurs
 url = "https://music.feedspot.com/jazz_blogs/"
 
-# Example function call
-blog_urls = get_url(url)  # Assuming get_url function returns something you can use
+# la fonction qui récupère les urls des sites des blogueurs
+blog_urls = get_url(url) 
 
-# Call other functions similarly
+# Appeler les fonctions
 names = get_names(url)
 locals = get_locals(url)
 webs = get_webs(url)
 
-# For functions that require more than one argument
+# Les fonctions avec plus d'un argument
 twitter_followers = get_followers(url, "fs-twitter")
 facebook_followers = get_followers(url, "fs-facebook")
 instagram_followers = get_followers(url, "fs-instagram")
 
-# For functions that do not require arguments (assuming create_email doesn't need arguments)
 emails = create_email()
 
+# Création d'une fonction globale qui appelle l'ensemble des fonctions du script des blogueurs pour extraire les données
 
-# In[8]:
-
-
-def get_bloggers(url):  # creer une fonction qui appelle des fonctions du script des blogueurs pour extraire les données
+def get_bloggers(url):  
 
     get_url(url)
     nom_blog = get_names(url) #nom des blogs
@@ -73,9 +67,7 @@ def get_bloggers(url):  # creer une fonction qui appelle des fonctions du script
 url = "https://music.feedspot.com/jazz_blogs/"
 get_bloggers(url)
 
-
-# In[12]:
-
+#Créer une fonction qui permet d'ajouter des lignes dans le tableau créé
 
 def add_row_to_table(table, new_row):
     # Créer un DataFrame à partir de la nouvelle ligne
@@ -86,6 +78,7 @@ def add_row_to_table(table, new_row):
     
     return table
 
+# Mettre les commandes permetant de générer le tableau contenant l'ensemble des données des bloguers à l'intérieur d'une fonction
 def create_datablog():
     DataBlog = {"Nom Blog": nom_blog,
                 "Pays": Pays,
@@ -106,7 +99,7 @@ def create_datablog():
 # Créer le DataFrame initial
 TableBlog = create_datablog()
 
-# Ajouter la nouvelle ligne
+# Ajouter des nouvelles lignes dans le tableau (pour vérifier par la suite si l'envoi des mails fonctionne correctement en utilisant des adresses mail réelles)
 new_rowG = {'Nom Blog': "Georgiana", 'Pays': "Romania" ,'Région': "none", 'Ville': "none", 'Adresse Email': "iogecor02@gmail.com", 
             'Site web': "none" ,'Abonnées Facebook': 0, 'Abonnées Twitter': 0, 'Abonnées Instagram': 0}
 new_rowV = {'Nom Blog': "Valentin", 'Pays': "France" ,'Région': "none", 'Ville': "none", 'Adresse Email': "valentin.barthel@etu.unistra.fr", 
@@ -120,54 +113,35 @@ TableBlog = add_row_to_table(TableBlog, new_rowV)
 print(TableBlog)
 
 
-# In[69]:
-
-
-
-
-
 # # PARTIE 2. Scrapper le site des festivals
 
-# In[13]:
-from SCRAPfest import get_all_pages, get_event_names, scrape_all_events
+# i,porter les fonctions du script correspondant au scrapping du site des festivals
+from scraping_festivals import get_all_pages, get_event_names, scrape_all_events
 
-
-# In[16]:
-
-
-#creer une fonction qui appelle les fonctions du script des festivals pour recuperer les donnees:
+#creer une fonction qui appelle les fonctions du script des festivals pour récupérer l'ensemble des données:
 def get_festivals():
-    get_all_pages()
-    get_event_names(url)
-    TableEvent = scrape_all_events()
-    TableEvent["Pays_Event"] = TableEvent["Pays_Event"].replace({"United States": "USA"})
+    get_all_pages() # récupérer toutes les pages du site
+    get_event_names(url) #récuperer les noms des festivals
+    TableEvent = scrape_all_events() #générer un tableau qui comporte les informations sur les festivals (nom, pays, période, ville etc.)
+    TableEvent["Pays_Event"] = TableEvent["Pays_Event"].replace({"United States": "USA"}) #remplacer United States par USA
     print(TableEvent)
-get_festivals()    
+
+get_festivals()  
 
 
 # # PARTIE 3: mail automatique
-
-# In[17]:
-
-from mailauto import format_blogger_email, format_event_list, send_jazz_event_invitations
-
+# importer les fonctions du script correspondant à l'envoi automatique du mail
+from sending_mail import format_blogger_email, format_event_list, send_jazz_event_invitations 
 
 # # PARTIE 4: appeller les 3 parties pour tout afficher
 
-# In[18]:
-
-
+# Créer la fonction finale qui permet d'appeller l'ensemble des fonctions créées précédemment et d'exécuter l'intégralité du code des trois parties
 def get_everything():
-    get_bloggers(url)
-    create_datablog()
-    get_festivals()
-    format_blogger_email(blog['Nom Blog'], followers, country)
-    format_event_list(country_events)
-    send_jazz_event_invitations("smtp.gmail.com", 465, "jazzyworld67@gmail.com", "ogunqrpjhigzwpfc", TableBlog, TableEvent)
+    get_bloggers(url) #fonction qui appelle l'ensemble des fonctions du script des bloguers pour récuperer les données
+    create_datablog() #fonction qui crée le tableau TableBlog
+    get_festivals() #fonction qui appelle l'ensemble des fonctions du script des festivals pour récuperer les données
+    format_blogger_email(blog['Nom Blog'], followers, country) #fonction qui permet de personnaliser le mail automatique
+    format_event_list(country_events) #fonction qui permet de personnaliser le mail automatique
+    send_jazz_event_invitations("smtp.gmail.com", 465, "jazzyworld67@gmail.com", "ogunqrpjhigzwpfc", TableBlog, TableEvent) #fonction qui assure la connexion au serveur SMTP, l'envoi du mail à l'ensemble des adresses et la déconnexion du serveurs
     
-get_everything()    
-
-
-
-
-
+get_everything() 
