@@ -75,7 +75,7 @@ def create_email():
         return adresses_email
 create_email()  
 
-#Création d'une fonction pour scraper la localisation des blogueurs sous format ['ville','région','pays']
+#Création d'une fonction pour scraper la localisation des blogueurs sous format ['ville','région','pays'] dans 'localisation'
 def get_locals(url):
     soup = get_url(url)
     h3s = soup.find_all('p', attrs={'class':'trow trow-wrap'})
@@ -101,7 +101,7 @@ Ville = []
 Region = []
 Pays = []
 
-
+#Boucle permettant d'isoler la ville, la région et le pays de la variable 'localisation'
 for loc in localisation:
     parts = loc.split(', ')
     
