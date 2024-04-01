@@ -25,7 +25,7 @@ pip install -r requirements.txt
 ## Utilisation
 Pour lancer le script d'envoi d'e-mails, exécutez :
 
-python mailauto.py
+python sending_mail.py
 Fonctionnalités
 Scraping de données : Extrait les informations des blogueurs et des festivals depuis des sources en ligne.
 Analyse et traitement de données : Segmente les données pour cibler les invitations en fonction du pays d'origine des blogueurs.
@@ -37,8 +37,9 @@ Créez votre branche de fonctionnalité (git checkout -b feature/AmazingFeature)
 Commit vos changements (git commit -m 'Add some AmazingFeature')
 Push à la branche (git push origin feature/AmazingFeature)
 Ouvrez une Pull Request
-Auteurs et Remerciements
-Valentin Barthel, Georgiana-Ioana Coroama - Développeurs initiaux
+
+Auteurs:
+Valentin Barthel, Georgiana-Ioana Coroama
 
 
 #### Contacts:
