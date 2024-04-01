@@ -9,6 +9,7 @@ import numpy as np
 import tqdm
 import pandas as pd
 
+#Création d'une fonction pour ouvrir une URL
 def get_url(url):
     '''
     Function to retrieve the HTML content of a given URL using a fake user agent and handling exceptions.
@@ -37,6 +38,7 @@ def get_url(url):
 
 print(get_url("https://music.feedspot.com/jazz_blogs/"))
 
+#Création d'une fonction créant une liste pour les noms des blogueurs
 def get_names(url):
     soup = get_url(url)
     h3s = soup.find_all('h3', attrs={'class':'feed_heading'})
@@ -58,6 +60,7 @@ nom_blog = get_names("https://music.feedspot.com/jazz_blogs/")
 print(len(nom_blog))
 print(nom_blog)
 
+#Création d'une fonction pour créer des adresses mails fictives à partir des noms des blogueurs
 def create_email():
     adresses_email = []
     for blog in nom_blog:
@@ -72,6 +75,7 @@ def create_email():
         return adresses_email
 create_email()  
 
+#Création d'une fonction pour scraper la localisation des blogueurs sous format ['ville','région','pays']
 def get_locals(url):
     soup = get_url(url)
     h3s = soup.find_all('p', attrs={'class':'trow trow-wrap'})
@@ -97,6 +101,7 @@ Ville = []
 Region = []
 Pays = []
 
+
 for loc in localisation:
     parts = loc.split(', ')
     
@@ -121,6 +126,7 @@ print("Villes:", Ville)
 print("Regions:", Region)
 print("Pays:", Pays)
 
+#Création d'une fonction pour obtenir le nom des pages webs des blogueurs
 def get_webs(url):
     soup = get_url(url)
     h3s = soup.find_all('p', attrs={'class':'trow trow-wrap'})
@@ -131,7 +137,6 @@ def get_webs(url):
         nns = h3.find_all('a', class_='ext')
         
         if len(nns) > 0:
-            # Accès direct au texte de chaque élément span trouvé
             for nn in nns:
                 webs.append(nn.get_text())
         else:
@@ -141,6 +146,7 @@ site_web = get_webs("https://music.feedspot.com/jazz_blogs/")
 print(len(site_web))
 print(site_web)
 
+#Création d'une fonction pour obtenir le nombre de followers pour chaques réseau (si réseau il y a)
 def get_followers(url, name_class):
     
     soup = get_url(url)
@@ -172,6 +178,7 @@ print(fbsub)
 print(len(instasub))
 print(instasub)
 
+##Création d'une fonction pour convertir le nombre d'abonnées sous format string en integer en remplaçant les "k" et "M" avec le bon nombre de "0"
 def convertir_en_nombre(abonnes_str):
     # Gère le cas spécial où la chaîne est 'none'
     if abonnes_str == 'none':
@@ -191,6 +198,7 @@ twitsub_num = [convertir_en_nombre(abonne) for abonne in twitsub]
 instasub_num = [convertir_en_nombre(abonne) for abonne in instasub]
 len(instasub_num)
 
+#Création de la table "DataBlog" avec l'ensemble des variables scrapées 
 DataBlog = {"Nom Blog": nom_blog,
                 "Pays": Pays,
                 "Région": Region,
@@ -204,8 +212,10 @@ DataBlog = {"Nom Blog": nom_blog,
 
 TableBlog = pd.DataFrame(DataBlog)
 
+#La variable Pays pouvant prendre comme valeurs US et USA, nous nous accorderons à n'avoir qu'un output pour les deux cas (USA)
 TableBlog["Pays"] = TableBlog["Pays"].replace({"US": "USA"})
 TableBlog
 
+#Création du CSV 'TableBlog' qui sera stocké dans le folder contenant l'ensemble des scripts
 nom_fichier = 'TableBlog.csv'
 TableBlog.to_csv(nom_fichier, index=False)
