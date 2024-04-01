@@ -28,7 +28,7 @@ response
 # In[4]:
 
 if response.ok:
-    soup = BeautifulSoup(response.text, 'html.parser')
+    soup = BeautifulSoup(response.text, features="lxml")
     print(soup)
 
 
@@ -46,7 +46,7 @@ def get_all_pages():
 
 def get_event_names(url):
     r = requests.get(url)
-    soup = BeautifulSoup(r.content, "html.parser")
+    soup = BeautifulSoup(r.content, features="lxml")
     festivals = soup.find_all("tr")
     data = []
     for festival in festivals[1:]:
@@ -82,17 +82,3 @@ TableEvent
 
 nom_fichier = 'TableEvent.csv'
 TableEvent.to_csv(nom_fichier, index=False)
-
-
-# In[11]:
-
-
-def get_path(chemin):
-    return TableEvent.to_csv(chemin, index=False)
-
-
-# In[ ]:
-
-
-
-

@@ -1,20 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# #Petit test
-
-# In[1]:
-
-
-import sys
-
-
-# In[2]:
-
-
-print(sys.version)
-
-
 # In[38]:
 
 
@@ -60,7 +46,7 @@ def get_url(url):
         try:
             response = session.get(url, headers=headers)
             response.raise_for_status()  # Cela va lever une exception pour les codes 4xx/5xx
-            return BeautifulSoup(response.text, 'lxml')
+            return BeautifulSoup(response.text, features="lxml")
         except requests.RequestException as e:
             print(f"Error retrieving URL {url}: {e}")
             return None
@@ -278,22 +264,3 @@ TableBlog
 
 nom_fichier = 'TableBlog.csv'
 TableBlog.to_csv(nom_fichier, index=False)
-
-# In[51]:
-
-
-def get_chemin(chemin):
-    return TableBlog.to_csv(chemin, index=False)
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-

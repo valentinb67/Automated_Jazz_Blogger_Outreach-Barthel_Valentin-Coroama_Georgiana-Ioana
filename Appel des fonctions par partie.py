@@ -3,7 +3,7 @@
 
 # In[5]:
 
-#importer les packages
+#importation des packages
 import sys
 import requests 
 import random 
@@ -167,8 +167,6 @@ def get_everything():
     
 get_everything()    
 
-
-# In[ ]:
 
 
 
