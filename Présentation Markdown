@@ -1,0 +1,551 @@
+---
+title: "Projet de Web scraping: envoi automatisé des invitations personnalisées aux blogueurs de Jazz "
+author: "Barthel Valentin et Coroama Georgiana-Ioana"
+date: "2024-04-02"
+output: slidy_presentation
+---
+```{r}
+knitr::opts_chunk$set(error = TRUE)
+
+```
+
+
+```{python setup, include=FALSE}
+```
+
+
+
+## Contexte et objectif de notre projet
+
+- Création d'une invitation personnalisée (par blogger et par pays) automatique aux festivals de jazz adressée aux bloggers de jazz de différents pays du monde 
+- Match entre les bloggers et les festivals en fonction du pays (i.e .une invitation personnalisée pour les festivals aux Etats-Unis adressée à tous les bloggers américains/ une invitation personnalisée pour les festivals en France adressée à tous les bloggers français etc. )
+- Point de départ: web scrapping du site contenant les 100 bloggers de jazz les plus fameux du monde (https://music.feedspot.com/jazz_blogs/) et du site contenant les festivals (https://www.smoothjazz.com/festivals)
+
+## Etapes de notre projet
+-  Web scrapping des 2 sites 
+-  Création des adresses mail fictives pour les blogueurs et envoi du mail automatique personnalisé
+-  Création d'un script final avec des fonctions par partie (get_bloggers, get_festivals et send_jazz_invitations) et une fonction globale (get_everything) qui appelle ces fonctions pour executer l'intégralité du code.
+
+
+
+
+
+```{python, echo=FALSE, results="hide"}
+import requests
+import re
+import pandas as pd
+from bs4 import BeautifulSoup
+```
+
+```{python, echo=FALSE, results="hide"}
+url = 'https://www.smoothjazz.com/festivals'
+url
+```
+
+```{python, echo=FALSE, results="hide"}
+response = requests.get(url)
+response
+```
+## 1. Scraping du site des festivals: fonction qui récupère l'ensemble des urls des pages à scraper( get_all_pages())
+https://www.smoothjazz.com/festivals
+
+```{python}
+
+def get_all_pages():
+    urls = []
+    page_number = 0
+    for i in range(1, 16): 
+        url = f"https://www.smoothjazz.com/festivals?page={page_number}"
+        page_number += 1
+        urls.append(url)
+    return urls
+
+  
+```
+
+
+
+## Fonction permettant de scraper le nom, la ville, la région, le pays et la date des festivals de chaque page (get_event_names(url))
+
+
+```{python}
+def get_event_names(url):
+    r = requests.get(url)
+    soup = BeautifulSoup(r.content, features="html.parser")
+    festivals = soup.find_all("tr")
+    data = []
+    for festival in festivals[1:]:
+        event_details = {}
+        event_details['Nom_Event'] = festival.find("td", headers="view-title-table-column", class_="views-field views-field-title is-active").text.strip() if festival.find("td", headers="view-title-table-column", class_="views-field views-field-title is-active") else ""
+        event_details['Ville_Envent'] = festival.find("td", headers="view-field-city-table-column", class_="views-field views-field-field-city").text.strip() if festival.find("td", headers="view-field-city-table-column", class_="views-field views-field-field-city") else ""
+        event_details['Region_Event'] = festival.find("td", headers="view-field-state-region-table-column", class_="views-field views-field-field-state-region").text.strip() if festival.find("td", headers="view-field-state-region-table-column", class_="views-field views-field-field-state-region") else ""
+        event_details['Pays_Event'] = festival.find("td", headers="view-field-country-table-column", class_="views-field views-field-field-country").text.strip() if festival.find("td", headers="view-field-country-table-column", class_="views-field views-field-field-country") else ""
+        event_details['Periode_Event'] = festival.find("td", headers="view-field-event-month-table-column", class_="views-field views-field-field-event-month").text.strip() if festival.find("td", headers="view-field-event-month-table-column", class_="views-field views-field-field-event-month") else ""
+        data.append(event_details)
+    return data
+  
+```
+
+
+```{python}
+get_event_names(url)
+
+```
+
+## Fonction qui permet de mettre sous la forme d'une data frame tous les informations récupérées par get_event_names()
+```{python}
+
+def scrape_all_events():
+    urls = get_all_pages()
+    all_events = []
+    for url in urls:
+        events = get_event_names(url)
+        all_events.extend(events)
+    return pd.DataFrame(all_events)
+```
+
+
+```{python}
+TableEvent = scrape_all_events()
+
+TableEvent["Pays_Event"] = TableEvent["Pays_Event"].replace({"United States": "USA"})
+TableEvent
+```
+
+ 
+
+```{python, echo=FALSE, results="hide"}
+import requests 
+import random 
+import pprint
+import re
+import time
+from collections import defaultdict
+from bs4 import BeautifulSoup
+import numpy as np
+import tqdm
+import pandas as pd
+```
+
+## 2. Scraping du site des blogueurs: fonction permettant de récupérer les url
+```{python}
+def get_url(url):
+    user_agents_list = [
+        'Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.83 Safari/537.36',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36'
+    ]#Liste des agents simulés
+
+    headers = {'User-Agent': random.choice(user_agents_list)}
+    with requests.Session() as session:
+        try:
+            response = session.get(url, headers=headers)
+            response.raise_for_status()  # Cela va lever une exception pour les codes 4xx/5xx
+            return BeautifulSoup(response.text, features="html.parser")
+        except requests.RequestException as e:
+            print(f"Error retrieving URL {url}: {e}")
+            return None
+```
+
+## Fonction permettant de récupérer les noms des blogueurs
+```{python}
+def get_names(url):
+    soup = get_url(url)
+    h3s = soup.find_all('h3', attrs={'class':'feed_heading'})
+    
+    noms = []
+    
+    for h3 in h3s:
+        nns = h3.find_all('a', class_='tlink fd_lk')
+        
+        if len(nns) > 0:
+            # Accès direct au texte de chaque élément span trouvé
+            for nn in nns:
+                noms.append(nn.get_text())
+        else:
+            noms.append('none')
+    return noms
+
+nom_blog = get_names("https://music.feedspot.com/jazz_blogs/")
+print(len(nom_blog))
+print(nom_blog)
+```
+## Fonction qui génère l'adresse mail de chaque blogueur à partir du nom de son blog
+```{python}
+def create_email():
+    adresses_email = []
+    for blog in nom_blog:
+    # Nettoyer et remplacer les espaces et caractères spéciaux
+        nom_simplifie = blog.strip().replace(' ', '_').replace('&', 'and').replace('»', '').replace('|', '').replace('.', '').lower()
+    # Ajouter un domaine fictif
+        adresse_email = nom_simplifie + "@exemple.com"
+        adresses_email.append(adresse_email)
+
+# Afficher les adresses e-mail créées
+    for adresse in adresses_email:
+        return adresses_email
+create_email()  
+
+
+```
+## Fonction qui permet de récupérer la localisation des blogueurs (ville, région, pays)
+```{python}
+def get_locals(url):
+    soup = get_url(url)
+    h3s = soup.find_all('p', attrs={'class':'trow trow-wrap'})
+    
+    locals_ = []
+    
+    for h3 in h3s:
+        nns = h3.find_all('span', class_='location_new')
+        
+        if len(nns) > 0:
+            # Accès direct au texte de chaque élément span trouvé
+            for nn in nns:
+                locals_.append(nn.get_text())
+        else:
+            locals_.append('none')
+    return locals_
+
+localisation = get_locals("https://music.feedspot.com/jazz_blogs/")
+print(len(localisation))
+print(localisation)
+
+```
+
+
+```{python}
+Ville = []
+Region = []
+Pays = []
+
+#Boucle permettant d'isoler la ville, la région et le pays de la variable 'localisation'
+for loc in localisation:
+    parts = loc.split(', ')
+    
+    # Gestion des cas spéciaux
+    if loc == 'none' or len(parts) == 1:
+        Ville.append('none')
+        Region.append('none')
+        Pays.append(parts[0] if loc != 'none' else 'none')
+    elif len(parts) == 2:
+        # Supposition: format "Ville, Pays"
+        Ville.append(parts[0])
+        Region.append('none')
+        Pays.append(parts[1])
+    elif len(parts) >= 3:
+        # Format complet "Ville, Région, Pays"
+        Ville.append(parts[0])
+        Region.append(parts[1])
+        Pays.append(parts[2])
+
+print("Villes:", Ville)
+print("Regions:", Region)
+print("Pays:", Pays)
+
+```
+
+## Fonction pour obtenir la page web de chaque blogueur
+```{python}
+def get_webs(url):
+    soup = get_url(url)
+    h3s = soup.find_all('p', attrs={'class':'trow trow-wrap'})
+    
+    webs = []
+    
+    for h3 in h3s:
+        nns = h3.find_all('a', class_='ext')
+        
+        if len(nns) > 0:
+            for nn in nns:
+                webs.append(nn.get_text())
+        else:
+            webs.append('none')
+    return webs
+site_web = get_webs("https://music.feedspot.com/jazz_blogs/")
+print(len(site_web))
+print(site_web)
+```
+
+## Fonction pour obtenir le nombre de followers pour chaque réseau (s'il y en a )
+
+```{python}
+def get_followers(url, name_class):
+    
+    soup = get_url(url)
+    spans = soup.find_all('span', attrs={'class':'eng-outer-wrapper eng-outer-wrapper eng-outer-nodot eng-outer-wrapper--free'})
+
+    abo = []
+   
+    for span in spans:
+
+        imgs = span.find_all('span', class_=f'{name_class}')
+        
+        if len(imgs) > 0:
+            lst = [img.find_all("span", class_='eng_v') for img in imgs] 
+            abo.append(lst[0][0].get_text())   
+        else : abo.append('none')
+
+    return abo
+
+twitsub = get_followers("https://music.feedspot.com/jazz_blogs/", "fs-twitter")
+fbsub = get_followers("https://music.feedspot.com/jazz_blogs/", "fs-facebook")
+instasub = get_followers("https://music.feedspot.com/jazz_blogs/", "fs-instagram")
+                      
+print(twitsub)
+print(fbsub)
+print(instasub)
+```
+
+## Fonction pour convertir le nombre d'abonnées sous format string en integer en remplaçant les "k" et "M" avec le bon nombre de "0"
+```{python}
+
+def convertir_en_nombre(abonnes_str):
+    # Gère le cas spécial où la chaîne est 'none'
+    if abonnes_str == 'none':
+        return 0  # Retourne 0 ou une autre valeur par défaut appropriée
+    # Supprime 'K', multiplie par 1000 si 'K' était présent
+    if 'K' in abonnes_str:
+        return int(float(abonnes_str.replace('K', '')) * 1000)
+    # Ajoute une condition pour gérer les cas où 'M' est présent
+    elif 'M' in abonnes_str:
+        return int(float(abonnes_str.replace('M', '')) * 1000000)
+    # Supprime les points et les virgules avant de convertir en int
+    return int(abonnes_str.replace('.', '').replace(',', ''))
+```
+
+```{python}
+# Application de la fonction à tous les éléments des listes
+fbsub_num = [convertir_en_nombre(abonne) for abonne in fbsub]
+twitsub_num = [convertir_en_nombre(abonne) for abonne in twitsub]
+instasub_num = [convertir_en_nombre(abonne) for abonne in instasub]
+print(instasub_num)
+print(fbsub_num)
+print(twitsub_num )
+```
+
+##Création de la table "DataBlog" avec l'ensemble des variables scrapées 
+
+```{python}
+DataBlog = {"Nom Blog": nom_blog,
+                "Pays": Pays,
+                "Région": Region,
+                "Ville": Ville,
+                "Adresse Email": create_email(),
+                "Site web": site_web,
+                "Abonnées Facebook": fbsub_num,
+                "Abonnées Twitter": twitsub_num,
+                "Abonnées Instagram": instasub_num
+                }
+
+TableBlog = pd.DataFrame(DataBlog)
+
+#La variable Pays pouvant prendre comme valeurs US et USA, nous nous accorderons à n'avoir qu'un output pour les deux cas (USA)
+TableBlog["Pays"] = TableBlog["Pays"].replace({"US": "USA"})
+TableBlog
+
+#Création du CSV 'TableBlog' qui sera stocké dans le folder contenant l'ensemble des scripts
+nom_fichier = 'TableBlog.csv'
+TableBlog.to_csv(nom_fichier, index=False)
+```
+
+
+```{python, echo=FALSE, results="hide" }
+import re
+import pandas as pd
+import numpy as np
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
+```
+
+## 3:Création du mail automatique: fonction qui génère le sujet et une partie du contenu personnalisé du mail pour chaque bloguer
+```{python}
+def format_blogger_email(blog_name, followers, country):
+    email_subject = f"Invitation to Jazz Events in {country}"
+    email_body = f"Dear {blog_name},\n\nIt's time for some good jazz! With more than {followers} jazz lovers following you, it seems like your community is growing by each day.\n\nThat's why we thought you might be interested in the jazz festivals taking place in your area soon.\n\n Check out all the festivals organized in {country}:"
+    return email_subject, email_body
+```
+
+# Fonction qui génère la liste personnalisée des festivals pour chaque blogueur (en fonction de son pays d'origine)
+
+```{python}
+def format_event_list(events):
+    event_list = []
+    for _, event in events.iterrows():
+        event_info = f"{event['Nom_Event']}"
+        if not pd.isnull(event['Ville_Envent']) and not pd.isnull(event['Periode_Event']):
+            event_info += f" ({event['Ville_Envent']} - {event['Periode_Event']})"
+        elif not pd.isnull(event['Ville_Envent']):
+            event_info += f" ({event['Ville_Envent']})"
+        elif not pd.isnull(event['Periode_Event']):
+            event_info += f" ({event['Periode_Event']})"
+        event_list.append(event_info)
+    
+    formatted_list = "- " + "\n- ".join(event_list)
+    return formatted_list
+
+```
+
+## Connexion au serveur SMTP et création de la fonction pour envoyer les mails automatiquement en incluant les 2 fonctions créées 
+
+```{python}
+def send_jazz_event_invitations(smtp_server, smtp_port, smtp_username, smtp_password, TableBlog, TableEvent):
+    #Gestion des erreurs à la connection au serveur de la boîte mail choisie
+    try:
+        server = smtplib.SMTP_SSL(smtp_server, smtp_port)
+        server.login(smtp_username, smtp_password)
+        print("Connexion au serveur SMTP réussie.")
+    except Exception as e:
+        print(f"Erreur de connexion au serveur SMTP: {e}")
+        return
+    #Initiation de la boucle pour créer un message personnalisé en fonction du blogueur, de son nombre d'abonnées 
+    # et de sa localisation
+    for country in TableBlog['Pays'].unique():
+        country_events = TableEvent[TableEvent['Pays_Event'].str.contains(country, case=False, na=False)]
+        if not country_events.empty:
+            country_blogs = TableBlog[TableBlog['Pays'] == country]
+            for _, blog in country_blogs.iterrows():
+                # Déterminer le nombre d'abonnés Facebook ou Twitter
+                facebook_followers = blog['Abonnées Facebook']
+                twitter_followers = blog['Abonnées Twitter']
+                followers = facebook_followers if facebook_followers > 0 else twitter_followers
+            
+            # Utilisation de la fonction format_blogger_email pour formater le texte de l'email
+                email_subject, email_body = format_blogger_email(blog['Nom Blog'], followers, country)
+            
+            # Construction de la liste des événements avec des informations supplémentaires
+                formatted_event_list = format_event_list(country_events)
+                email_body += f"\n\n{formatted_event_list}" 
+    
+            # Ajout du reste du texte de l'email
+                if len(country_events) > 1:
+                    email_body += "\n\nAnd that's not all. As we appreciate your effort to spread the jazzy vibes across your passionate community, we'd love to offer you a free full access ticket to your favorite festival from the list.\n\n Find the full list of the festivals taking place all around the world at the following address: https://www.smoothjazz.com/festivals \n\nFeel free to write us back for more details.\n\nBest regards,\n The Jazzy World Team "
+                else:
+                    email_body += "\n\nAnd that's not all. As we appreciate your effort to spread the jazzy vibes across your passionate community, we'd love to offer you a free full access ticket to this festival.\n\n Find the full list of the festivals taking place all around the world at the following address: https://www.smoothjazz.com/festivals \n\n\nFeel free to write us back for more details.\n\nBest regards,\n The Jazzy World Team  "
+
+                msg = MIMEMultipart()
+                msg['From'] = smtp_username
+                msg['To'] = blog['Adresse Email']
+                msg['Subject'] = email_subject
+                msg.attach(MIMEText(email_body, 'plain'))
+                #Gestion des erreurs dans le cadre de l'envoie des mails
+                try:
+                    server.sendmail(smtp_username, blog['Adresse Email'], msg.as_string())
+                    print(f"Email sent to {blog['Adresse Email']}")
+                except Exception as e:
+                    print(f"Failed to send email to {blog['Adresse Email']}: {e}")
+    #Gestion des erreurs dans le cadre de la fermeture du serveur
+    try:
+        server.quit()
+        print("Connexion SMTP fermée.")
+    except Exception as e:
+        print(f"Erreur lors de la fermeture de la connexion SMTP: {e}")
+```
+
+## Appel de la fonction pour l'envoie de mail
+
+```{python}
+send_jazz_event_invitations("smtp.gmail.com", 465, "jazzyworld67@gmail.com", "ogunqrpjhigzwpfc", TableBlog, TableEvent)
+```
+
+## Exemples:
+
+
+![Exemple blogueur espagnol](C:/Users/Georgiana/Pictures/Screenshots/spain.png)
+![Exemple blogueur portugais](C:/Users/Georgiana/Pictures/Screenshots/portugal.png)
+
+
+## Envoi à nos propres adresses mail:
+![Mail Georgiana](C:/Users/Georgiana/Desktop/Candidatura Brescia/geo.jpg)
+![Mail Valentin](C:/Users/Georgiana/Downloads/mailv.jpeg)
+## 4. Fonctions qui appelle les fonctions de chaque partie et fonction globale get_everything()
+
+```{python,echo=TRUE, results="hide"}
+def get_bloggers(url):  
+
+    get_url(url)
+    nom_blog = get_names(url) #nom des blogs
+    localisation = get_locals(url) #localisation des blogeurs
+    site_web = get_webs(url) #sites web des blogeurs
+
+    # abonnés sur Twitter, Facebook et Instagram
+    twitsub = get_followers(url, "fs-twitter")
+    fbsub = get_followers(url, "fs-facebook")
+    instasub = get_followers(url, "fs-instagram")
+
+    # abonnés convertis en nombre
+    fbsub_num = [convertir_en_nombre(abonne) for abonne in fbsub]
+    twitsub_num = [convertir_en_nombre(abonne) for abonne in twitsub]
+    instasub_num = [convertir_en_nombre(abonne) for abonne in instasub]
+
+    adresses_email = create_email()  # création des adresses mail pour chaque blogueur
+    return [nom_blog, localisation, site_web, fbsub_num, twitsub_num, instasub_num, adresses_email]
+
+url = "https://music.feedspot.com/jazz_blogs/"
+#get_bloggers(url)
+```
+
+```{python, echo=TRUE, results="hide"}
+# Mettre les commandes permetant de générer le tableau contenant l'ensemble des données des bloguers à l'intérieur d'une fonction
+def create_datablog():
+    DataBlog = {"Nom Blog": nom_blog,
+                "Pays": Pays,
+                "Région": Region,
+                "Ville": Ville,
+                "Adresse Email": create_email(),
+                "Site web": site_web,
+                "Abonnées Facebook": fbsub_num,
+                "Abonnées Twitter": twitsub_num,
+                "Abonnées Instagram": instasub_num
+                }
+
+    TableBlog = pd.DataFrame(DataBlog)
+    TableBlog["Pays"] = TableBlog["Pays"].replace({"US": "USA"})
+    
+    return TableBlog
+
+# Créer le DataFrame initial
+TableBlog = create_datablog()
+
+```
+
+```{python, echo=TRUE, results="hide"}
+def get_festivals():
+    get_all_pages() # récupérer toutes les pages du site
+    get_event_names(url) #récuperer les noms des festivals
+    TableEvent = scrape_all_events() #générer un tableau qui comporte les informations sur les festivals (nom, pays, période, ville etc.)
+    TableEvent["Pays_Event"] = TableEvent["Pays_Event"].replace({"United States": "USA"}) #remplacer United States par USA
+    print(TableEvent)
+
+get_festivals()  
+```
+
+```{python, echo=TRUE, results="hide", error=TRUE}
+# Créer la fonction finale qui permet d'appeller l'ensemble des fonctions créées précédemment et d'exécuter l'intégralité du code des trois parties
+def get_everything():
+    get_bloggers(url) #fonction qui appelle l'ensemble des fonctions du script des bloguers pour récuperer les données
+    create_datablog() #fonction qui crée le tableau TableBlog
+    get_festivals() #fonction qui appelle l'ensemble des fonctions du script des festivals pour récuperer les données
+    format_blogger_email(blog['Nom Blog'], followers, country) #fonction qui permet de personnaliser le mail automatique
+    format_event_list(country_events) #fonction qui permet de personnaliser le mail automatique
+    send_jazz_event_invitations("smtp.gmail.com", 465, "jazzyworld67@gmail.com", "ogunqrpjhigzwpfc", TableBlog, TableEvent) #fonction qui assure la connexion au serveur SMTP, l'envoi du mail à l'ensemble des adresses et la déconnexion du serveurs
+    
+#get_everything() 
+```
+
+## 
+Ce que nous avons appris grâce à notre projet de web scraping:
+
+- Inspecter attentivement la structure des pages à scraper pour identifier certains patterns
+- Utiliser des fonctions par blocs pour pouvoir relier les différentes parties
+- Gérer les bases de données
+- Créer et envoyer le mail automatique personnalisé
+- Utilisation du serveur SMTP
+- Répondre à des problématiques de marketing (segmentation)
+##
+Extensions possibles:
+- Ajouter un bouton intéractif dans le mail pour demander au destinataire s'il souhaite obtenir plus d'informations
+- Rendre dynamique de sorte façon à signaler lorsqu'il y a de nouveaux festivals 
+- Inclure plus de sites pour tenir compte aussi de petits festivals locaux
